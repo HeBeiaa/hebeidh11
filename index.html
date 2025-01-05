@@ -1,177 +1,268 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>只言片语导航 &nbsp;- 不懂就搜，一搜就懂</title>
-    <meta name="keywords" content="只言片语导航,不懂就搜,实用网址,主页导航,简单网址导航">
-    <meta name="description" content="只言片语，可寻万物！"/>
-    <link rel="shortcut icon" href="static/img/favicon.ico">
-    <link href="static/css/style.css" rel="stylesheet" type="text/css">
-    <!-- 百度统计代码 -->
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?786a6208323fbecfb41d71bfda8daca6";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-      </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hebei的引导页</title>
+    <style>
+        /* 全局样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #121212;
+            color: #ffffff;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 容器样式 */
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        /* 头部样式 */
+        header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            padding: 20px;
+            border-bottom: 5px solid #373737;
+            animation: slideInDown 1s ease-in-out;
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        /* 导航样式 */
+        nav {
+            background-color: #1f1f1f;
+            padding: 15px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        nav ul li {
+            margin: 0;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #1db954;
+            animation: bounce 0.3s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 主体内容样式 */
+        main {
+            padding: 20px;
+            flex-grow: 1;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .post {
+            background: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .post h2 {
+            margin-top: 0;
+            animation: slideInLeft 1.5s ease-in-out;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .post p {
+            animation: slideInRight 1.5s ease-in-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* 按钮容器样式 */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        .button-container button {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            border: 2px solid #373737;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            flex: 0 1 calc(50% - 10px); /* 将按钮设置为两个一行 */
+            max-width: calc(50% - 10px);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button-container button:hover {
+            background-color: #373737;
+            transform: scale(1.1);
+        }
+
+        /* 底部样式 */
+        footer {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            animation: slideInUp 1s ease-in-out;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .friend-link {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .friend-link a {
+            color: #1db954;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .friend-link a:hover {
+            color: #ffffff;
+        }
+
+        .friend-link button {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            border: 2px solid #373737;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            flex: 0 1 calc(50% - 10px); /* 将按钮设置为两个一行 */
+            max-width: calc(50% - 10px);
+        }
+
+        .friend-link button:hover {
+            background-color: #373737;
+            transform: scale(1.1);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+
+            .button-container button {
+                flex: 1 1 100%; /* 在小屏幕上每行一个按钮 */
+                max-width: 100%;
+            }
+
+            .friend-link {
+                flex-direction: column;
+            }
+
+            .friend-link button {
+                flex: 1 1 100%; /* 在小屏幕上每行一个按钮 */
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="inner-center main">
-  <div class="content-inside">
-    <!-- slogan start -->
-    <div class="logo-box">
-      <div class="logo-left">
-        <img src="./static/img/logo.gif" alt="logo">
-      </div>
-      <div class="logo-right">
-        <span>只言片语，可寻万物</span>
-      </div>
-    </div>
-    <!-- slogan end -->
-    
-    <!-- 搜索框 start -->
-    <div id="search_form" class="search-section"target="_blank">
-      <div class="search-left">
-        <div id="search_logo" data-type="google" class="search-logo"></div>
-        <div class="input-wrap">
-          <input id="search_keyword"
-                class="search-input"
-                name="keyword"
-                maxlength="100"
-                autocomplete="off"
-                type="text"
-                placeholder="不懂么？不懂就搜，给老子搜！">
-          <div class="clear-keyword" id="clear_keyword" title="清空">x</div>
-        </div>
-        <!--  搜索引擎 start  -->
-        <ul id="search_methods" class="search-methods">
-          <li data-type="google" class="search-item google">谷歌</li>
-          <li data-type="baidu" class="search-item baidu">百度</li>
-          <li data-type="bing" class="search-item bing">必应</li>
-          <li data-type="so" class="search-item so">360搜索</li>
-          <li data-type="sogou" class="search-item sogou">搜狗</li>
-          <li data-type="wangpan" class="search-item wangpan">网盘搜索</li>
-        </ul>
-        <!--  搜索引擎 end  -->
-        <!--  搜索结果 start -->
-        <ul id="search_result" class="search-result">
-          <!--<li class="result-item"></li>-->
-        </ul>
-        <!--  搜索结果 end -->
-      </div>
-      <input class="search-submit" value="寻一下" id="search_submit" type="submit">
-    </div>
-    <!-- 搜索框 end -->
-    
-    <!-- 导航地址 start -->
-    <div class="nav-content">
-      <div class="jj-list">
-        <div class="jj-list-tit">麦 · Mai</div>
-        <ul class="jj-list-con">
-          <li><a href="https://www.google.com/" class="jj-list-link" target="_blank">Google</a></li>
-          <li><a href="https://www.baidu.com/" class="jj-list-link" target="_blank">百度</a></li>
-          <li><a href="https://cn.bing.com/" class="jj-list-link" target="_blank">Bing</a></li>
-          <li><a href="https://www.sogou.com/" class="jj-list-link" target="_blank">搜狗搜索</a></li>
-          <li><a href="https://www.so.com/" class="jj-list-link" target="_blank">360搜索</a></li>
-          <li><a href="https://www.toutiao.com/search/?keyword=/" class="jj-list-link" target="_blank">头条搜索</a></li>
-          <li><a href="https://translate.google.cn/" class="jj-list-link" target="_blank">谷歌翻译</a></li>
-          <li><a href="https://fanyi.baidu.com/" class="jj-list-link" target="_blank">百度翻译</a></li>
-          <li><a href="http://fanyi.youdao.com/" class="jj-list-link" target="_blank">有道翻译</a></li>
-        </ul>
-      </div>
-      <div class="jj-list">
-        <div class="jj-list-tit">胖 · Pang</div>
-        <ul class="jj-list-con">
-          <li><a href="https://www.zhihu.com/" class="jj-list-link" target="_blank">知乎</a></li>
-          <li><a href="https://web.okjike.com/feed/" class="jj-list-link" target="_blank">即刻</a></li>
-          <li><a href="https://www.v2ex.com/" class="jj-list-link" target="_blank">V2EX</a></li>
-          <li><a href="https://weibo.com/" class="jj-list-link" target="_blank">微博</a></li>
-          <li><a href="https://www.jianshu.com/" class="jj-list-link" target="_blank">简书</a></li>
-          <li><a href="https://www.douban.com/" class="jj-list-link" target="_blank">豆瓣</a></li>
-          <li><a href="http://www.woshipm.com/" class="jj-list-link" target="_blank">产品经理</a></li>
-          <li><a href="http://www.chanpin100.com/" class="jj-list-link" target="_blank">产品壹佰</a></li>
-          <li><a href="http://pm.budong.me/" class="jj-list-link" target="_blank">只言片语</a></li>
-        </ul>
-      </div>
-      <div class="jj-list">
-        <div class="jj-list-tit">皮 · Pi</div>
-        <ul class="jj-list-con">
-          <li><a href="https://ke.qq.com/" class="jj-list-link" target="_blank">腾讯课堂</a></li>
-          <li><a href="https://study.163.com/" class="jj-list-link" target="_blank">网易云课堂</a></li>
-          <li><a href="https://www.imooc.com/" class="jj-list-link" target="_blank">慕课网</a></li>
-          <li><a href="https://www.bilibili.com/" class="jj-list-link" target="_blank">哔哩哔哩</a></li>
-          <li><a href="https://www.iqiyi.com/" class="jj-list-link" target="_blank">爱奇艺</a></li>
-          <li><a href="https://v.qq.com/" class="jj-list-link" target="_blank">腾讯视频</a></li>
-          <li><a href="https://www.youku.com/" class="jj-list-link" target="_blank">优酷</a></li>
-          <li><a href="http://cpc.people.com.cn/" class="jj-list-link" target="_blank">1024</a></li>
-          <li><a href="http://www.zimuzu.tv/" class="jj-list-link" target="_blank">人人影视</a></li>
+    <div class="container">
+        <header>
+            <h1>NPickaxe11的引导页 2025！</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a id="contact-me" href="#">联系我</a></li>
+            </ul>
+        </nav>
+        <main>
+            <article class="post">
+                <h2>谁开的？城里人你也开不起！</h2>
+                <p>很高兴你来到这里，本人学生党awa。</p>
+            </article>
+        </main>
+        <div class="button-container">
+            
         
-        </ul>
-      </div>
-      <div class="jj-list">
-        <div class="jj-list-tit">笑 · Xiao</div>
-        <ul class="jj-list-con">
-          <li><a href="https://www.36kr.com/" class="jj-list-link" target="_blank">36氪</a></li>
-          <li><a href="https://www.huxiu.com/" class="jj-list-link" target="_blank">虎嗅</a></li>
-          <li><a href="https://www.toutiao.com/" class="jj-list-link" target="_blank">今日头条</a></li>	
-          <li><a href="https://www.163.com/" class="jj-list-link" target="_blank">网易</a></li>						
-          <li><a href="https://sspai.com/" class="jj-list-link" target="_blank">少数派</a></li>
-          <li><a href="http://ac.scmor.com/" class="jj-list-link" target="_blank">谷歌镜像</a></li>
-          <li><a href="http://crud.budong.me/" class="jj-list-link" target="_blank">小仙女博客</a></li>
-          <li><a href="https://coding.net/" class="jj-list-link" target="_blank">Coding</a></li>
-          <li><a href="https://www.coolist.net/" class="jj-list-link" target="_blank">酷软清单</a></li>
-        </ul>
-      </div>
-      <div class="jj-list">
-        <div class="jj-list-tit">嘻 · Xi</div>
-        <ul class="jj-list-con">
-          <li><a href="https://map.baidu.com/" class="jj-list-link" target="_blank">百度地图</a></li>
-          <li><a href="http://www.google.cn/maps" class="jj-list-link" target="_blank">谷歌地图</a></li>
-          <li><a href="https://www.amap.com/" class="jj-list-link" target="_blank">高德地图</a></li>
-          <li><a href="https://sm.ms/" class="jj-list-link" target="_blank">SM图床</a></li>
-          <li><a href="https://tool.lu/" class="jj-list-link" target="_blank">程序员工具</a></li>
-          <li><a href="http://www.alloyteam.com/nav/" class="jj-list-link" target="_blank">前端工具</a></li>
-          <li><a href="http://www.99baiduyun.com/" class="jj-list-link" target="_blank">网盘搜索</a></li>
-          <li><a href="https://cli.im/" class="jj-list-link" target="_blank">二维码</a></li>
-          <li><a href="http://www.qinms.com/webapp/barcode/index.aspx" class="jj-list-link" target="_blank">条形码</a></li>
-        
-        </ul>
-      </div>
-      <div class="jj-list">
-        <div class="jj-list-tit">嘻 · Xi</div>
-        <ul class="jj-list-con">
+
           
-          <li><a href="http://www.dytt8.net/" class="jj-list-link" target="_blank">电影天堂</a></li>
-          <li><a href="https://zhuanlan.zhihu.com/p/36456284" class="jj-list-link" target="_blank">图片素材</a></li>
-          <li><a href="https://www.portablesoft.org/" class="jj-list-link" target="_blank">效率工具</a></li>
-          <li><a href="https://www.taobao.com/" class="jj-list-link" target="_blank">淘宝</a></li>
-          <li><a href="https://www.jd.com/" class="jj-list-link" target="_blank">京东</a></li>
-          <li><a href="https://www.suning.com/" class="jj-list-link" target="_blank">苏宁</a></li>
-          <li><a href="https://www.smzdm.com/" class="jj-list-link" target="_blank">什么值得买</a></li>
-          <li><a href="http://gitdh.eesn.top/hzhuye/index.html" class="jj-list-link" target="_blank">伪装小米</a></li>
-          <li><a href="http://www.manmanbuy.com/" class="jj-list-link" target="_blank">慢慢买</a></li>
-        
-        
-        </ul>
-      </div>
+            <button onclick="window.open('https://np.ip-ddns.com/ooo', '_blank')">旋转鸡块制作</button>
+
+        </div>
+        <footer>
+            <div class="friend-link">
+                <a href="？">友链</a>
+                <a href="5">惊喜</a>
+                
+            </div>
+            <p>&copy; your father 2025 awa 你爸的博客. 保留所有权利。</p>
+        </footer>
     </div>
-    <!-- 导航地址 end -->
-  </div>
-</div>
-<footer class="inner-center footer">
-  <p>
-   <a href="https://github.com/TopVitamin/static-nav" target="_blank"> <img src="./static/css/img/github.png" alt="" height="20" width="20"></a>
-  </p>
-  <p style="margin-top:8px;"> <a href="http://pm.budong.me/" style="color:#8C8C8C;" target="_blank">Copyright © 2019 Hosted by 只言片语</a></p>
- 
-</footer>
-<script src="./static/js/jquery.min.js"></script>
-<script src="./static/js/keyword.js"></script>
 
+    <script>
+        document.getElementById('contact-me').addEventListener('click', function(event) {
+            event.preventDefault();
+            alert("qq236480478");
+        });
 
+        function openIsoShare() {
+            window.open('1', '_blank');
+        }
+    </script>
 </body>
 </html>
