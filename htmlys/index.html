@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线HTML调试工具</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --background: #f8f9fa;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--background);
+      color: var(--primary);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* 标签页样式 */
+    .tab-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      background: #e8f4fc;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 120px;
+      justify-content: space-between;
+    }
+
+    .tab.active {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .close-tab {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      padding: 0 5px;
+    }
+
+    .add-tab {
+      padding: 10px 15px;
+      background: #27ae60;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* 编辑器布局 */
+    .editor-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: 80vh;
+    }
+
+    .editor-box, .preview-box {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    #editor {
+      width: 100%;
+      height: calc(100% - 40px);
+      padding: 15px;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      resize: none;
+    }
+
+    #preview {
+      width: 100%;
+      height: 100%;
+      border: 2px solid #eee;
+      border-radius: 8px;
+    }
+
+    .toolbar {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-run {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-reset {
+      background: #e74c3c;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .editor-preview {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      #editor, #preview {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="tab-bar">
+    <div class="tab active" data-tab="page1">
+      <span>📄 Page 1</span>
+      <button class="close-tab" onclick="closeTab('page1')">×</button>
+    </div>
+    <div class="add-tab" onclick="createNewTab()">+ 新建</div>
+  </div>
+
+  <div class="editor-preview">
+    <div class="editor-box">
+      <textarea id="editor"></textarea>
+      <div class="toolbar">
+        <button class="btn btn-run" onclick="runCode()">运行代码</button>
+        <button class="btn btn-reset" onclick="resetCode()">重置代码</button>
+      </div>
+    </div>
+
+    <div class="preview-box">
+      <iframe id="preview"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 页面数据存储
+  let tabs = {
+    'page1': {
+      code: `<!DOCTYPE html>
+<html>
+<head>
+    <title>示例页面</title>
+    <style>
+        body { padding: 20px; }
+        h1 { color: #3498db; }
+    </style>
+</head>
+<body>
+    <h1>欢迎使用！</h1>
+    <p>输入HTML代码查看实时效果</p>
+    <script>
+        console.log('示例脚本运行正常');
+    <\/script>
+</body>
+</html>`
+    }
+  };
+
+  let currentTab = 'page1';
+
+  // 初始化
+  function init() {
+    document.getElementById('editor').value = tabs[currentTab].code;
+    updatePreview();
+  }
+
+  // 创建新标签页
+  function createNewTab() {
+    const tabId = 'page' + (Object.keys(tabs).length + 1);
+    tabs[tabId] = {
+      code: `<!DOCTYPE html>
+<html>
+<head>
+    <title>新页面</title>
+    <style>
+        body { padding: 20px; }
+        h1 { color: #${Math.floor(Math.random()*16777215).toString(16)}; }
+    </style>
+</head>
+<body>
+    <h1>${tabId}</h1>
+</body>
+</html>`
+    };
+
+    const tabBar = document.querySelector('.tab-bar');
+    const newTab = document.createElement('div');
+    newTab.className = 'tab';
+    newTab.dataset.tab = tabId;
+    newTab.innerHTML = `
+                <span>📄 ${tabId}</span>
+                <button class="close-tab" onclick="closeTab('${tabId}')">×</button>
+            `;
+    newTab.addEventListener('click', () => switchTab(tabId));
+
+    tabBar.insertBefore(newTab, document.querySelector('.add-tab'));
+    switchTab(tabId);
+  }
+
+  // 切换标签页
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+
+    // 保存当前页面代码
+    tabs[currentTab].code = document.getElementById('editor').value;
+
+    // 加载新页面
+    currentTab = tabId;
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+    document.getElementById('editor').value = tabs[tabId].code;
+    updatePreview();
+  }
+
+  // 关闭标签页
+  function closeTab(tabId) {
+    if (Object.keys(tabs).length === 1) return alert("至少保留一个标签页");
+
+    delete tabs[tabId];
+    document.querySelector(`[data-tab="${tabId}"]`).remove();
+
+    // 自动切换到第一个标签页
+    const firstTab = Object.keys(tabs)[0];
+    switchTab(firstTab);
+  }
+
+  // 更新预览
+  function updatePreview() {
+    document.getElementById('preview').srcdoc = document.getElementById('editor').value;
+  }
+
+  // 运行代码
+  function runCode() {
+    tabs[currentTab].code = document.getElementById('editor').value;
+    updatePreview();
+  }
+
+  // 重置代码
+  function resetCode() {
+    document.getElementById('editor').value = tabs[currentTab].code;
+    updatePreview();
+  }
+
+  // 实时输入监听
+  document.getElementById('editor').addEventListener('input', function() {
+    tabs[currentTab].code = this.value;
+    updatePreview();
+  });
+
+  // 初始化
+  init();
+</script>
+</body>
+</html>
