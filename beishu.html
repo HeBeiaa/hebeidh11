@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>狗屎背诵系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css"rel="stylesheet">
+    <style>
+        :root{
+            --primary: #69beea;
+            --secondary: #73fff4;
+            --error:#F44336;
+            --background:#f5f6fa;
+            --surface:#ffffff;
+        }
+        body{
+            font-family: 'Roboto','Noto Sans SC',sans-serif;
+            background:var(--background);
+            margin:0;
+            padding: 0;
+        }
+
+        .app-container{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .nav-bar{
+            display: flex;
+            gap: 20px;
+            padding: 16px;
+            background:var(--surface);
+            border-radius:12px;
+            margin-bottom: 20px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .nav-item{
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor:pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .content-area{
+            display:grid ;
+            frid-template-columns:300px 1fr;
+            gap: 20px;
+
+        }
+
+        .sidebar{
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+             .main-content {
+                 background: var(--surface);
+                 border-radius: 12px;
+                 padding: 20px;
+                 box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+             }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .stats-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .answer-input {
+            width: 100%;
+            height: 150px;
+            padding: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1em;
+            margin: 20px 0;
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .primary-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .secondary-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .error-btn {
+            background: var(--error);
+            color: white;
+        }
+
+        .history-chart {
+            width: 100%;
+            height: 200px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .add-card-form {
+            display: grid;
+            gap: 16px;
+            padding: 20px;
+            background: var(--background);
+            border-radius: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .wrong-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .wrong-item {
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-left: 4px solid var(--error);
+        }
+
+        .progress-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--surface);
+            border-radius: 8px;
+        }
+
+        #accuracyChart {
+            position: relative;
+        }
+
+
+
+
+    </style>
+     </head>
+    <body>
+    <div class="app-container">
+        <div class="nav-bar">
+            <div class="nav-item active" onclick="showView('practice')">
+                <i class="mdi mdi-book-open-variant"></i>
+                开始背诵
+            </div>
+            <div class="nav-item" onclick="showView('wrong')">
+                <i class="mdi mdi-alert-circle"></i>
+                错题本（<span id="wrongCount">0</span>）
+            </div>
+            <div class="nav-item" onclick="showView('add')">
+                <i class="mdi mdi-plus-circle"></i>
+                添加题目
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="sidebar">
+                <div class="progress-container">
+                    <h3>学习进度</h3>
+                    <div class="history-chart" id="accuracyChart"></div>
+                    <p>总题数：<span id="totalCount">0</span></p>
+                    <p>已掌握：<span id="masteredCount">0</span></p>
+                </div>
+            </div>
+
+            <div class="main-content">
+
+                <div id="practiceView" class="view">
+                    <div class="card">
+                        <div class="stats-badge" id="accuracyBadge">正确率：--%</div>
+                        <h2 id="questionTitle">《静夜思》李白</h2>
+                        <textarea class="answer-input"
+                                  placeholder="在此处输入背诵内容..."
+                                  id="userAnswer"></textarea>
+                        <div class="button-group">
+                            <button class="button primary-btn" onclick="previousQuestion()">
+                                <i class="mdi mdi-skip-previous-circle"></i>
+                                上一题
+                            </button>
+                            <button class="button secondary-btn" onclick="submitAnswer()">
+                                <i class="mdi mdi-send-check"></i>
+                                提交答案
+                            </button>
+                            <button class="button error-btn" onclick="resetCurrent()">
+                                <i class="mdi mdi-autorenew"></i>
+                                重置
+                            </button>
+                            <button class="button primary-btn" onclick="showNextQuestion()">
+                                <i class="mdi mdi-skip-next-circle"></i>
+                                下一题
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="wrongView" class="view" style="display: none;">
+                    <h2>错题本</h2>
+                    <div class="wrong-list" id="wrongList"></div>
+                </div>
+
+
+                <div id="addView" class="view" style="display: none;">
+                    <div class="add-card-form">
+                        <input type="text" class="form-input" id="newQuestionTitle" placeholder="题目名称（例：《静夜思》李白）">
+                        <textarea class="form-input" id="newQuestionContent"
+                                  placeholder="正确答案（支持多行输入，例：床前明月光，\n疑是地上霜。\n举头望明月，\n低头思故乡。）"
+                                  rows="5"></textarea>
+                        <button class="button primary-btn" onclick="addNewQuestion()">
+                            <i class="mdi mdi-content-save"></i>
+                            保存题目
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let answerHistory = [];
+
+
+        function loadStorage() {
+            try {
+                const storedData = localStorage.getItem('questions');
+                if (storedData) {
+                    questions = JSON.parse(storedData);
+
+                    questions = questions.filter(q =>
+                        q?.id && q?.title && q?.content && Array.isArray(q.attempts)
+                    );
+                }
+            } catch (e) {
+                console.error('数据加载失败，已重置:', e);
+                questions = [];
+            }
+
+
+            if(questions.length === 0) {
+                questions.push({
+                    id: Date.now(),
+                    title: "《静夜思》李白",
+                    content: "床前明月光，\n疑是地上霜。\n举头望明月，\n低头思故乡。",
+                    attempts: [],
+                    isWrong: false,
+                    createdAt: new Date().toISOString()
+                });
+            }
+        }
+
+
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+            document.getElementById(`${viewName}View`).style.display = 'block';
+            document.querySelector(`[onclick="showView('${viewName}')"]`).classList.add('active');
+
+            if(viewName === 'wrong') updateWrongList();
+            updateProgress();
+        }
+
+
+        function submitAnswer() {
+            const userAnswer = document.getElementById('userAnswer').value.trim();
+            if(!userAnswer) {
+                alert("请输入答案后再提交！");
+                return;
+            }
+
+            const currentQuestion = questions[currentQuestionIndex];
+            const accuracy = calculateAccuracy(userAnswer, currentQuestion.content);
+
+
+            answerHistory.push({
+                date: new Date(),
+                accuracy,
+                questionId: currentQuestion.id
+            });
+
+
+            currentQuestion.attempts.push({
+                date: new Date().toISOString(),
+                accuracy,
+                userAnswer
+            });
+
+            currentQuestion.isWrong = accuracy < 85;
+            updateAccuracyBadge(accuracy);
+            updateProgress();
+            updateWrongCount();
+            drawAccuracyChart();
+            saveData();
+        }
+
+
+        function previousQuestion() {
+            currentQuestionIndex = (currentQuestionIndex - 1 + questions.length) % questions.length;
+            loadQuestion();
+        }
+
+        function showNextQuestion() {
+            currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+            loadQuestion();
+        }
+
+
+        function resetCurrent() {
+            if(confirm("确定要重置当前题目进度吗？")) {
+                questions[currentQuestionIndex].attempts = [];
+                questions[currentQuestionIndex].isWrong = false;
+                loadQuestion();
+                updateProgress();
+                updateWrongCount();
+                saveData();
+            }
+        }
+
+
+        function loadQuestion() {
+            const hasQuestions = questions.length > 0;
+            document.getElementById('userAnswer').disabled = !hasQuestions;
+
+            if(hasQuestions) {
+                const question = questions[currentQuestionIndex];
+                document.getElementById('questionTitle').textContent = question.title;
+                document.getElementById('userAnswer').value = '';
+                updateAccuracyBadge();
+            } else {
+                document.getElementById('questionTitle').textContent = "暂无题目";
+            }
+        }
+
+
+        function updateAccuracyBadge(accuracy) {
+            const badge = document.getElementById('accuracyBadge');
+            if(typeof accuracy === 'number') {
+                badge.textContent = `实时正确率：${accuracy}%`;
+                badge.style.background = accuracy >= 85 ? 'var(--secondary)' : 'var(--error)';
+            } else {
+                const history = questions[currentQuestionIndex]?.attempts || [];
+                const avg = history.length > 0 ?
+                    Math.round(history.reduce((a,b) => a + b.accuracy, 0)/history.length) : 0;
+                badge.textContent = `历史正确率：${avg}%`;
+                badge.style.background = avg >= 85 ? 'var(--secondary)' : 'var(--error)';
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('totalCount').textContent = questions.length;
+            const mastered = questions.filter(q =>
+                q.attempts.some(a => a.accuracy >= 85)
+            ).length;
+            document.getElementById('masteredCount').textContent = mastered;
+        }
+
+
+        function updateWrongList() {
+            const wrongList = document.getElementById('wrongList');
+            wrongList.innerHTML = questions
+                .filter(q => q.isWrong)
+                .map(q => `
+                    <div class="wrong-item" onclick="jumpToQuestion(${questions.indexOf(q)})">
+                        <h4>${q.title}</h4>
+                        <p>错误次数：${q.attempts.filter(a => a.accuracy < 85).length}</p>
+                    </div>
+                `).join('');
+        }
+
+        function updateWrongCount() {
+            const wrongCount = questions.filter(q => q.isWrong).length;
+            document.getElementById('wrongCount').textContent = wrongCount;
+        }
+
+
+        function drawAccuracyChart() {
+            const chart = document.getElementById('accuracyChart');
+            const lastAccuracy = answerHistory.slice(-1)[0]?.accuracy || 0;
+            chart.innerHTML = `
+                <div style="width: ${lastAccuracy}%;
+                            height: 100%;
+                            background: ${lastAccuracy >= 85 ? 'var(--secondary)' : 'var(--error)'};
+                            border-radius: 8px;
+                            transition: width 0.5s ease">
+                    <span style="position: absolute; padding: 5px">${lastAccuracy}%</span>
+                </div>
+            `;
+        }
+
+
+        function addNewQuestion() {
+            const title = document.getElementById('newQuestionTitle').value.trim();
+            const content = document.getElementById('newQuestionContent').value.trim();
+
+            if(title && content) {
+                questions.push({
+                    id: Date.now(),
+                    title,
+                    content,
+                    attempts: [],
+                    isWrong: false,
+                    createdAt: new Date().toISOString()
+                });
+
+                saveData();
+                alert('题目添加成功！');
+                document.getElementById('newQuestionTitle').value = '';
+                document.getElementById('newQuestionContent').value = '';
+                updateProgress();
+                currentQuestionIndex = questions.length - 1;
+                loadQuestion();
+            }
+        }
+
+
+        function calculateAccuracy(user, correct) {
+            const userLines = user.split('\n').filter(l => l.trim());
+            const correctLines = correct.split('\n').filter(l => l.trim());
+
+            if(correctLines.length === 0 && userLines.length === 0) return 100;
+            if(correctLines.length === 0) return 0;
+
+            let totalScore = 0;
+            const maxLines = Math.max(userLines.length, correctLines.length);
+
+            for(let i = 0; i < maxLines; i++) {
+                const uLine = userLines[i] || '';
+                const cLine = correctLines[i] || '';
+                const distance = levenshteinDistance(uLine, cLine);
+                const maxLen = Math.max(uLine.length, cLine.length);
+                totalScore += maxLen === 0 ? 100 : (1 - distance / maxLen) * 100;
+            }
+
+            return Math.round(totalScore / maxLines);
+        }
+
+
+        function levenshteinDistance(a, b) {
+            const aChars = Array.from(a);
+            const bChars = Array.from(b);
+
+            const matrix = [];
+            for(let i = 0; i <= bChars.length; i++){
+                matrix[i] = [i];
+            }
+            for(let j = 0; j <= aChars.length; j++){
+                matrix[0][j] = j;
+            }
+            for(let i = 1; i <= bChars.length; i++){
+                for(let j = 1; j <= aChars.length; j++){
+                    const cost = (bChars[i-1] === aChars[j-1]) ? 0 : 1;
+                    matrix[i][j] = Math.min(
+                        matrix[i-1][j] + 1,
+                        matrix[i][j-1] + 1,
+                        matrix[i-1][j-1] + cost
+                    );
+                }
+            }
+            return matrix[bChars.length][aChars.length];
+        }
+
+
+        function saveData() {
+            localStorage.setItem('questions', JSON.stringify(questions));
+        }
+
+
+        function init() {
+            loadStorage();
+            updateProgress();
+            updateWrongCount();
+            loadQuestion();
+            drawAccuracyChart();
+        }
+
+
+        init();
+    </script>
+    </body>
+</html>
+
+
+
