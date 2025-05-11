@@ -1,308 +1,282 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<script src="https://sdk.51.la/perf/js-sdk-perf.min.js" crossorigin="anonymous"></script>
-<script>
-  new LingQue.Monitor().init({id:"3KuyJ2x5A4ir8FCY",sendSuspicious:true,ignoreVendor:false,sendSpaPv:true});
-</script>
-  <script src="//code.jivosite.com/widget/7C5qYBzzZS" async></script>
-
-    <head>
-      <script src="https://sdk.51.la/perf/js-sdk-perf.min.js" crossorigin="anonymous"></script>
-<script>
-  new LingQue.Monitor().init({id:"3KuyJ2x5A4ir8FCY"});
-</script>
-    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-<script>LA.init({id:"3KuPKCGGohILyWg4",ck:"3KuPKCGGohILyWg4",autoTrack:true,hashMode:true,screenRecord:true})</script>
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hebei的引导页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>鹤北の导航站</title>
     <style>
-        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+        }
+
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
+            background: linear-gradient(135deg, #e0f7fa 0%, #c3d9e6 100%);
             min-height: 100vh;
-            background-color: #121212;
-            color: #ffffff;
-            animation: fadeIn 1.5s ease-in-out;
+            padding: 40px;
+            color: #2c3e50;
+            overflow-x: hidden;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* 容器样式 */
         .container {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        /* 头部样式 */
-        header {
-            background-color: #1f1f1f;
-            color: #ffffff;
-            padding: 20px;
-            border-bottom: 5px solid #373737;
-            animation: slideInDown 1s ease-in-out;
-        }
-
-        @keyframes slideInDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-
-        header h1 {
-            margin: 0;
-        }
-
-        /* 导航样式 */
-        nav {
-            background-color: #1f1f1f;
-            padding: 15px;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        nav ul li {
-            margin: 0;
-        }
-
-        nav ul li a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #1db954;
-            animation: bounce 0.3s;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* 主体内容样式 */
-        main {
-            padding: 20px;
-            flex-grow: 1;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        .post {
-            background: #1f1f1f;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .post h2 {
-            margin-top: 0;
-            animation: slideInLeft 1.5s ease-in-out;
-        }
-
-        @keyframes slideInLeft {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
-
-        .post p {
-            animation: slideInRight 1.5s ease-in-out;
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
-        /* 按钮容器样式 */
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 20px;
-            justify-content: center;
-        }
-
-        .button-container button {
-            background-color: #1f1f1f;
-            color: #ffffff;
-            border: 2px solid #373737;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-            flex: 0 1 calc(50% - 10px); /* 将按钮设置为两个一行 */
-            max-width: calc(50% - 10px);
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .button-container button:hover {
-            background-color: #373737;
-            transform: scale(1.1);
-        }
-
-        /* 底部样式 */
-        footer {
-            background-color: #1f1f1f;
-            color: #ffffff;
-            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
-            animation: slideInUp 1s ease-in-out;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.9);
         }
 
-        @keyframes slideInUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+        h1 {
+            font-size: 3em;
+            color: #3498db;
+            margin: 50px 0 30px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+            position: relative;
         }
 
-        .friend-link {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .friend-link a {
-            color: #1db954;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .friend-link a:hover {
-            color: #ffffff;
-        }
-
-        .friend-link button {
-            background-color: #1f1f1f;
-            color: #ffffff;
-            border: 2px solid #373737;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
+        h1::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background: #3498db;
+            bottom: -15px;
+            left: 0;
             border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-            flex: 0 1 calc(50% - 10px); /* 将按钮设置为两个一行 */
-            max-width: calc(50% - 10px);
         }
 
-        .friend-link button:hover {
-            background-color: #373737;
-            transform: scale(1.1);
+        .contact-section {
+            margin: 30px 0;
         }
 
-        /* 响应式设计 */
+        .contact-btn {
+            background: linear-gradient(45deg, #a6e6ff, #c3d9e6);
+            color: #2c3e50;
+            width: 100%;
+            max-width: 400px;
+            padding: 18px 30px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn:hover {
+            background: linear-gradient(45deg, #c3d9e6, #a6e6ff);
+            transform: scale(0.98);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .sub-title {
+            color: #88a8b8;
+            margin: 15px 0;
+            font-style: italic;
+            font-size: 0.9em;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .sub-title::after {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 2px;
+            background: #3498db;
+            left: 35%;
+            bottom: 0;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ffffff, #e6f7ff);
+            padding: 20px 30px;
+            border-radius: 15px;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background: linear-gradient(45deg, #e6f7ff, #ffffff);
+        }
+
+        .friend-links {
+            margin: 40px 0;
+            padding: 25px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .friend-links h3 {
+            color: #3498db;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .friend-links:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: rgba(255,255,255,0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #3498db;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: rotate(45deg);
+            color: #e74c3c;
+        }
+
+        /* 防选择文本 */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
         @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column;
-                align-items: center;
+            .btn-grid {
+                grid-template-columns: 1fr;
             }
-
-            .button-container {
-                flex-direction: column;
-            }
-
-            .button-container button {
-                flex: 1 1 100%; /* 在小屏幕上每行一个按钮 */
-                max-width: 100%;
-            }
-
-            .friend-link {
-                flex-direction: column;
-            }
-
-            .friend-link button {
-                flex: 1 1 100%; /* 在小屏幕上每行一个按钮 */
-                max-width: 100%;
+            .btn {
+                margin: 10px 0;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>鹤北的引导页 2025！</h1>
-        </header>
-        <nav>
-            <ul>
-                <li><a id="contact-me" href="#">联系我</a></li>
-            </ul>
-        </nav>
-        <main>
-            <article class="post">
-                <h2>谁开的？城里人你也开不起！</h2>
-                <p>很高兴你来到这里awa。</p>
-            </article>
-        </main>
-        <div class="button-container">
-            
-        
+        <h1>鹤北的小站导航 ✨</h1>
 
-          
-            <button onclick="window.open('https://heji.littler.top/tushuguanli/index.html', '_blank')">图书管理装置（不知道怎么用）</button>
-            <button onclick="window.open('https://heji.littler.top/scdh', '_blank')">收藏导航</button>
-            <button onclick="window.open('https://heji.littler.top/zhuyehebei', '_blank')">个人主页</button
-            <button onclick="window.open('https://heji.littler.top/beishu.html', '_blank')">狗屎记忆系统</button>
-            <button onclick="window.open('https://heji.littler.top/htmlys', '_blank')">html在线运行系统</button>
-            <button onclick="window.open('https://hebeizy.lanzoum.com/iYIn42r9ihmb', '_blank')">自用录屏</button>
-            <button onclick="window.open('https://heji.littler.top/ai', '_blank')">ai</button>
-          <button onclick="window.open('https://heji.littler.top/beishu.html', '_blank')">狗屎记忆系统</button>
-         
-          
+        <div class="contact-section">
+            <button class="btn contact-btn" onclick="showContact()">联系我 📨</button>
+            <div class="sub-title">「鹤北开的破站」</div>
         </div>
-        <footer>
-            <div class="friend-link">
-                <a href="？">友链</a>
-                <a href="5">惊喜</a>
-                
+
+        <div class="btn-grid">
+            <a class="btn" href="https://heji.littler.top/htmlys/">HTML代码在线运行</a>
+            <a class="btn" href="https://heji.littler.top/zhuyehebei/">个人主页</a>
+            <a class="btn" href="https://heji.littler.top/ai/">鹤北AI</a>
+            <a class="btn" href="https://hebeizy.lanzoum.com/iYIn42r9ihmb">自用录屏</a>
+            <a class="btn" href="https://heji.littler.top/beishu.html">背书系统</a>
+            <a class="btn" href="https://heji.littler.top/scdh/">收藏导航</a>
+        </div>
+
+        <div class="friend-links">
+            <h3>✨ 友联展示 ✨</h3>
+            <div class="btn-grid">
+                <!-- 手动添加友联示例 -->
+                <a class="btn" href="#" target="_blank">友链名称</a>
+                <a class="btn" href="#" target="_blank">友链名称</a>
             </div>
-            <p>&copy; your father 2025 awa 你爸的博客. 保留所有权利。</p>
+        </div>
+
+        <footer>
+            <p>© your father 2025 awa 鹤北的博客. 保留所有权利。</p>
         </footer>
     </div>
 
-    <script>
-        document.getElementById('contact-me').addEventListener('click', function(event) {
-            event.preventDefault();
-            alert("qq236480478");
-        });
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeContact()">&times;</span>
+            <h2>微信联系 📩</h2>
+            <p style="font-size: 1.5em; margin: 20px 0; color: #3498db;">mtbc668</p>
+            <img src="你的微信二维码图片URL" 
+                 alt="微信二维码" 
+                 style="width: 100%; max-width: 300px; margin: 20px 0; border-radius: 10px;">
+            <button class="btn" onclick="closeContact()">关闭窗口</button>
+        </div>
+    </div>
 
-        function openIsoShare() {
-            window.open('1', '_blank');
+    <script>
+        // 增强版域名检测
+        const allowDomain = 'heji.littler.top';
+        if(window.location.hostname !== allowDomain) {
+            const disableLinks = () => {
+                document.querySelectorAll('a').forEach(a => {
+                    a.onclick = (e) => {
+                        e.preventDefault();
+                        alert('⚠️ 请通过正式域名访问：' + allowDomain);
+                        window.location = 'https://' + allowDomain;
+                    }
+                });
+            }
+            disableLinks();
+            window.addEventListener('DOMContentLoaded', disableLinks);
+        }
+
+        // 联系弹窗功能
+        function showContact() {
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+
+        function closeContact() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        window.onclick = function(e) {
+            if (e.target.className === 'modal') {
+                closeContact();
+            }
         }
     </script>
 </body>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>嵌入网站</title>
-    <style>
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-        }
-    </style>
-</head>
-<body>
-
-    <iframe src="https://stats.uptimerobot.com/VYnQh7QloO" title="Uptime Robot" loading="lazy"></iframe>
-
-</body>
 </html>
-
