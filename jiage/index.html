@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云服务价格表</title>
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #ea4335;
+            --light-bg: #f8f9fa;
+            --dark-text: #202124;
+            --light-text: #5f6368;
+            --border-color: #dadce0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Google Sans', Roboto, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 2px 6px 2px rgba(60,64,67,.15);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 24px 32px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .pricing-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 32px;
+        }
+
+        .tab {
+            padding: 16px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--light-text);
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+        }
+
+        .tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .pricing-content {
+            padding: 0 32px;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        .pricing-table th {
+            text-align: left;
+            padding: 16px 24px;
+            font-weight: 500;
+            color: var(--light-text);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .pricing-table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .pricing-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .plan-name {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .price {
+            font-weight: 500;
+            font-size: 18px;
+        }
+
+        .price-period {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .feature-list {
+            list-style-type: none;
+        }
+
+        .feature-list li {
+            padding: 4px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .feature-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367d6;
+            box-shadow: 0 1px 2px 0 rgba(66,133,244,.3), 0 1px 3px 1px rgba(66,133,244,.15);
+        }
+
+        .highlight {
+            background-color: rgba(66,133,244,.08);
+        }
+
+        .popular-tag {
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+
+            header, .pricing-tabs, .pricing-content {
+                padding: 16px;
+            }
+
+            .pricing-table th,
+            .pricing-table td {
+                padding: 12px 16px;
+            }
+
+            .pricing-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>狐想云服务价格表</h1>
+        <div class="subtitle">选择适合您业务需求的云服务方案</div>
+        <div class="subtitle">可F12参照网页 不可以仿照“狐想云”</div>
+    </header>
+
+    <div class="pricing-tabs">
+        <div class="tab active" data-tab="compute">计算服务</div>
+        <div class="tab" data-tab="vps">云电脑</div>
+        <div class="tab" data-tab="storage">存储服务（未开发，供参考）</div>
+        <div class="tab" data-tab="network">网络服务（未开发，供参考）</div>
+        <div class="tab" data-tab="database">数据库（未开发，供参考）</div>
+    </div>
+
+    <div class="pricing-content">
+        <!-- 计算服务 -->
+        <div id="compute" class="tab-content active">
+            <table class="pricing-table">
+                <thead>
+                <tr>
+                    <th style="width: 20%">服务名称</th>
+                    <th style="width: 15%">价格</th>
+                    <th style="width: 40%">功能特点</th>
+                    <th style="width: 25%"></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td class="plan-name">关于
+                        <span class="popular-tag">介绍</span>
+                    </td>
+                    <td>
+                        <div class="price">鹤北的话</div>
+
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>文档产品不多，更多地区，区域，配置情找我</li>
+                            <li>谢谢你们 伴随着狐想云的成长！</li>
+                            <li>最后</li>
+                            <li>谢谢大家</li>
+
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="plan-name">国内服务器相关升级费用
+                        <span class="popular-tag">配置</span>
+                    </td>
+                    <td>
+                        <div class="price">¥
+                            114514.00 / 月</div>
+
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>CPU：1核=5元 </n>
+                                内存：1G=5元</n>
+                                带宽：1Mbps=10元
+                                硬盘：0.5元=1G</n>
+                                IP：1个=30元</n>
+                                提交工单可免费申请ipv6</n>
+                                以上价格针对每月</n>
+                                过白：https://gb.fjccm.cn/</n>
+                                温馨提醒：所升级的相关配置不会单独计算，哪怕你服务器即将到期所选择升级的配置，在到期那一刻也需要全额付款，建议产品到期前20天选择升级最好，如不接受，拒绝产品升级退款！</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="plan-name">宁波·4H4G·1区
+                        <span class="popular-tag">国内服务器</span>
+                    </td>
+                    <td>
+                        <div class="price">¥
+                           40.00 / 月</div>
+
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>4 vCPU, 4GB 内存</li>
+                            <li>系统磁盘：40G</li>
+                            <li>数据磁盘：30G</li>
+                            <li>IPv4：1个 100G防护</li>
+                            <li>带宽：20M骨干线电信线路</li>
+                            <li>不限制出站流量</li>
+                            <li>99.5% 可用性 SLA</li>
+                            <li>更多机器配置咨询群主</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="plan-name">美国1区｜三网顶尖网络｜A型
+                        <span class="popular-tag">实惠</span>
+                    </td>
+                    <td>
+                        <div class="price">¥
+                            13.00 / 月</div>
+
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>1 vCPU, 2GB 内存</li>
+                            <li>系统磁盘：Lin30Win50</li>
+                            <li>数据磁盘：30G</li>
+                            <li>IP数量：1个ipv4</li>
+                            <li>带宽：20Mbps</li>
+                            <li>不限制出站流量</li>
+                            <li>99.5% 可用性 SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="plan-name">美国1区｜三网顶尖网络｜B型
+                        <span class="popular-tag">实惠</span>
+                    </td>
+                    <td>
+                        <div class="price">¥
+                            18.00 / 月</div>
+
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>2 vCPU, 2GB 内存</li>
+                            <li>系统磁盘：Lin30Win50</li>
+                            <li>数据磁盘：50G</li>
+                            <li>IP数量：1个ipv4</li>
+                            <li>带宽：50Mbps</li>
+                            <li>不限制出站流量</li>
+                            <li>99.5% 可用性 SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="plan-name">美国1区｜三网顶尖网络｜C型
+                        <span class="popular-tag">实惠</span>
+                    </td>
+                    <td>
+                        <div class="price">¥
+                            22.00 / 月</div>
+
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>4 vCPU, 4GB 内存</li>
+                            <li>系统磁盘：Lin30Win50</li>
+                            <li>数据磁盘：70G</li>
+                            <li>IP数量：1个ipv4</li>
+                            <li>带宽：70Mbps</li>
+                            <li>不限制出站流量</li>
+                            <li>99.5% 可用性 SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+                    </td>
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 存储服务 -->
+        <div id="storage" class="tab-content">
+            <table class="pricing-table">
+                <thead>
+                <tr>
+                    <th style="width: 20%">服务名称</th>
+                    <th style="width: 15%">价格</th>
+                    <th style="width: 40%">功能特点</th>
+                    <th style="width: 25%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="plan-name">标准存储
+                        <span class="popular-tag">热门</span>
+                    </td>
+                    <td>
+                        <div class="price">¥0.08/GB/月</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>高可用性存储</li>
+                            <li>99.9% 可用性</li>
+                            <li>自动冗余备份</li>
+                            <li>无限读写次数</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+
+                <tr class="highlight">
+                    <td class="plan-name">低频访问存储</td>
+                    <td>
+                        <div class="price">¥0.05/GB/月</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>适合不频繁访问数据</li>
+                            <li>99.9% 可用性</li>
+                            <li>自动冗余备份</li>
+                            <li>读取额外费用</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="plan-name">归档存储</td>
+                    <td>
+                        <div class="price">¥0.02/GB/月</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>长期归档存储</li>
+                            <li>99.9% 持久性</li>
+                            <li>恢复时间4-12小时</li>
+                            <li>最低成本解决方案</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 网络服务 -->
+        <div id="network" class="tab-content">
+            <table class="pricing-table">
+                <thead>
+                <tr>
+                    <th style="width: 20%">服务名称</th>
+                    <th style="width: 15%">价格</th>
+                    <th style="width: 40%">功能特点</th>
+                    <th style="width: 25%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="plan-name">标准负载均衡
+                        <span class="popular-tag">热门</span>
+                    </td>
+                    <td>
+                        <div class="price">¥0.025/小时</div>
+                        <div class="price-period">+ ¥0.01/GB 流量</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>自动流量分配</li>
+                            <li>健康检查</li>
+                            <li>支持HTTP/HTTPS</li>
+                            <li>99.95% SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+
+                <tr class="highlight">
+                    <td class="plan-name">全球加速</td>
+                    <td>
+                        <div class="price">¥0.05/小时</div>
+                        <div class="price-period">+ ¥0.02/GB 流量</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>全球节点加速</li>
+                            <li>智能路由</li>
+                            <li>DDoS防护</li>
+                            <li>99.99% SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="plan-name">专线接入</td>
+                    <td>
+                        <div class="price">¥1000/月起</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>专有网络连接</li>
+                            <li>高带宽保证</li>
+                            <li>低延迟</li>
+                            <li>99.99% SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 数据库 -->
+        <div id="database" class="tab-content">
+            <table class="pricing-table">
+                <thead>
+                <tr>
+                    <th style="width: 20%">服务名称</th>
+                    <th style="width: 15%">价格</th>
+                    <th style="width: 40%">功能特点</th>
+                    <th style="width: 25%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="plan-name">MySQL基础版
+                        <span class="popular-tag">热门</span>
+                    </td>
+                    <td>
+                        <div class="price">¥0.18/小时</div>
+                        <div class="price-period">或 ¥129/月</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>1 vCPU, 2GB 内存</li>
+                            <li>50GB 存储</li>
+                            <li>基础备份</li>
+                            <li>99.9% SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+
+                <tr class="highlight">
+                    <td class="plan-name">MySQL高可用版</td>
+                    <td>
+                        <div class="price">¥0.36/小时</div>
+                        <div class="price-period">或 ¥259/月</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>2 vCPU, 4GB 内存</li>
+                            <li>100GB 存储</li>
+                            <li>主从复制</li>
+                            <li>自动故障转移</li>
+                            <li>99.95% SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="plan-name">Redis缓存</td>
+                    <td>
+                        <div class="price">¥0.25/小时</div>
+                        <div class="price-period">或 ¥179/月</div>
+                    </td>
+                    <td>
+                        <ul class="feature-list">
+                            <li>1 vCPU, 2GB 内存</li>
+                            <li>持久化存储</li>
+                            <li>集群支持</li>
+                            <li>99.95% SLA</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary">立即购买</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="vps" class="tab-content">
+    <table class="pricing-table">
+        <thead>
+        <tr>
+            <th style="width: 20%">服务名称</th>
+            <th style="width: 15%">价格</th>
+            <th style="width: 40%">功能特点</th>
+            <th style="width: 25%"></th>
+        </tr>
+        </thead>
+        <tbody>
+       <tr>
+            <td class="plan-name">浙江·2H2G·1区
+                <span class="popular-tag">热门</span>
+            </td>
+            <td>
+                <div class="price">5/月</div>
+
+            </td>
+            <td>
+                <ul class="feature-list">
+                    <li> CPU处理器：英特尔® 至强® 处理器 E5-2673v4</li>
+                    <li>2 vCPU, 2GB 内存</li>
+                    <li>40GB 存储</li>
+                    <li>带宽：20M骨干线电信线路</li>
+                    <li>流量：不限 </li>
+                    <li>IPv4：0个</li>
+                    <li>可安装的系统：Windows</li>
+                    <li>99.9% SLA</li>
+                </ul>
+            </td>
+            <td>
+                <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+            </td>
+        </tr>
+
+       <tr>
+           <td class="plan-name">浙江·2H4G·1区
+               <span class="popular-tag">热门</span>
+           </td>
+           <td>
+               <div class="price">7/月</div>
+
+           </td>
+           <td>
+               <ul class="feature-list">
+                   <li> CPU处理器：英特尔® 至强® 处理器 E5-2673v4</li>
+                   <li>2 vCPU, 4GB 内存</li>
+                   <li>40GB 存储</li>
+                   <li>带宽：20M骨干线电信线路</li>
+                   <li>流量：不限 </li>
+                   <li>IPv4：0个</li>
+                   <li>可安装的系统：Windows</li>
+                   <li>99.9% SLA</li>
+               </ul>
+           </td>
+           <td>
+               <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+           </td>
+       </tr>
+
+       <tr>
+           <td class="plan-name">浙江·4H4G·1区
+               <span class="popular-tag">热门</span>
+           </td>
+           <td>
+               <div class="price">8/月</div>
+
+           </td>
+           <td>
+               <ul class="feature-list">
+                   <li> CPU处理器：英特尔® 至强® 处理器 E5-2673v4</li>
+                   <li>4 vCPU, 4GB 内存</li>
+                   <li>40GB 存储</li>
+                   <li>带宽：20M骨干线电信线路</li>
+                   <li>流量：不限 </li>
+                   <li>IPv4：0个</li>
+                   <li>可安装的系统：Windows</li>
+                   <li>99.9% SLA</li>
+               </ul>
+           </td>
+           <td>
+               <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+           </td>
+       </tr>
+
+
+       <tr>
+           <td class="plan-name">浙江·4H8G·1区
+               <span class="popular-tag">热门</span>
+           </td>
+           <td>
+               <div class="price">10/月</div>
+
+           </td>
+           <td>
+               <ul class="feature-list">
+                   <li> CPU处理器：英特尔® 至强® 处理器 E5-2673v4</li>
+                   <li>4 vCPU, 8GB 内存</li>
+                   <li>40GB 存储</li>
+                   <li>带宽：20M骨干线电信线路</li>
+                   <li>流量：不限 </li>
+                   <li>IPv4：0个</li>
+                   <li>可安装的系统：Windows</li>
+                   <li>99.9% SLA</li>
+               </ul>
+           </td>
+           <td>
+               <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+           </td>
+       </tr>
+
+       <tr>
+           <td class="plan-name">浙江·8H8G·1区
+               <span class="popular-tag">热门</span>
+           </td>
+           <td>
+               <div class="price">14/月</div>
+
+           </td>
+           <td>
+               <ul class="feature-list">
+                   <li> CPU处理器：英特尔® 至强® 处理器 E5-2673v4</li>
+                   <li>8 vCPU, 8GB 内存</li>
+                   <li>40GB 存储</li>
+                   <li>带宽：20M骨干线电信线路</li>
+                   <li>流量：不限 </li>
+                   <li>IPv4：0个</li>
+                   <li>可安装的系统：Windows</li>
+                   <li>99.9% SLA</li>
+               </ul>
+           </td>
+           <td>
+               <a href="#" class="btn btn-primary">咨询狐想云客户群群主</a>
+           </td>
+       </tr>
+
+
+
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+
+<script>
+    // 标签切换功能
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            // 移除所有active类
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.remove('active');
+            });
+
+            // 隐藏所有内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 给当前点击的标签添加active类
+            this.classList.add('active');
+
+            // 显示对应的内容
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // 高亮行的悬停效果
+    document.querySelectorAll('.pricing-table tr').forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            if(!this.classList.contains('highlight')) {
+                this.style.backgroundColor = 'rgba(66,133,244,0.05)';
+            }
+        });
+
+        row.addEventListener('mouseleave', function() {
+            if(!this.classList.contains('highlight')) {
+                this.style.backgroundColor = '';
+            }
+        });
+    });
+</script>
+</body>
+</html>
